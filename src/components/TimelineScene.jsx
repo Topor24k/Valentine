@@ -173,7 +173,7 @@ const TimelineScene = ({ onNavigate }) => {
 
   return (
     <div className="timeline-scene" ref={containerRef}>
-      <button className="back-btn" onClick={() => onNavigate('menu')}>
+      <button className="timeline-back-btn" onClick={() => onNavigate('menu')}>
         ← Back to Menu
       </button>
 
@@ -372,11 +372,6 @@ const TimelineScene = ({ onNavigate }) => {
               </>
             )}
           </div>
-        </div>
-
-        <div className="timeline-navigation">
-          <button className="nav-arrow left-arrow">←</button>
-          <button className="nav-arrow right-arrow">→</button>
         </div>
       </div>
     </div>
