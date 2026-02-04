@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import SpinWheel from './SpinWheel'
 import './MenuScene.css'
 
 const MenuScene = ({ onNavigate }) => {
   const containerRef = useRef(null)
   const titleRef = useRef(null)
   const menuItemsRef = useRef(null)
+  const [showSpinWheel, setShowSpinWheel] = useState(false)
 
   useEffect(() => {
     const tl = gsap.timeline()
@@ -55,8 +57,8 @@ const MenuScene = ({ onNavigate }) => {
     <div className="menu-scene" ref={containerRef}>
       <div className="menu-frame">
         <div className="menu-title" ref={titleRef}>
-          <h1 className="title-main">Our Love Story</h1>
-          <p className="title-sub">Choose your path through our memories</p>
+          <h1 className="title-main">Happy Valentine</h1>
+          <p className="title-sub">Explore  our memories</p>
         </div>
 
         <div className="menu-items" ref={menuItemsRef}>
@@ -77,23 +79,16 @@ const MenuScene = ({ onNavigate }) => {
             <span className="menu-text">Our Timeline</span>
             <span className="menu-desc">Every moment we shared</span>
           </button>
-
-          <button 
-            className="menu-item"
-            onClick={() => handleMenuClick('albums')}
-          >
-            <span className="menu-number">03</span>
-            <span className="menu-text">Albums</span>
-            <span className="menu-desc">Our memories in photos & music</span>
-          </button>
         </div>
 
         <div className="menu-footer">
           <p className="footer-quote">
-            "Will you be my <span className="highlight">Valentine?</span>"
+            "Will you be my <span className="highlight" onClick={() => setShowSpinWheel(true)}>Valentine?</span>"
           </p>
         </div>
       </div>
+
+      {showSpinWheel && <SpinWheel onClose={() => setShowSpinWheel(false)} />}
     </div>
   )
 }
