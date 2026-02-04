@@ -21,25 +21,26 @@
 }
 
 .back-btn {
-  position: absolute;
+  position: fixed;
   top: 30px;
   left: 30px;
-  padding: 12px 30px;
-  background: #f8f6f0;
+  background: rgba(255, 255, 255, 0.95);
   color: #8b1e1e;
   border: 2px solid #8b1e1e;
-  border-radius: 4px;
-  font-family: 'Georgia', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 25px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .back-btn:hover {
   background: #8b1e1e;
-  color: #f8f6f0;
+  color: white;
   transform: translateX(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(139, 30, 30, 0.4);
 }
