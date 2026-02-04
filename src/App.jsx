@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import MenuScene from './components/MenuScene'
 import TimelineScene from './components/TimelineScene'
+import LetterScene from './components/LetterScene'
 import './App.css'
 
 function App() {
@@ -13,12 +14,7 @@ function App() {
   return (
     <div className="app">
       {currentScene === 'menu' && <MenuScene onNavigate={handleNavigate} />}
-      {currentScene === 'letter' && (
-        <div className="placeholder">
-          <button className="back-btn" onClick={() => setCurrentScene('menu')}>← Back to Menu</button>
-          <div>Letter Scene - Coming Soon</div>
-        </div>
-      )}
+      {currentScene === 'letter' && <LetterScene onNavigate={handleNavigate} />}
       {currentScene === 'timeline' && <TimelineScene onNavigate={handleNavigate} />}
       {currentScene === 'albums' && (
         <div className="placeholder">
