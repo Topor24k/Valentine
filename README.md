@@ -1,5 +1,21 @@
 # Valentine Timeline App
 
+## Instant Start
+
+```bash
+# Install dependencies for both frontend and backend
+npm install
+cd server && npm install && cd ..
+
+# Start backend (in one terminal)
+cd server && npm start
+
+# Start frontend (in another terminal)
+npm run dev
+```
+
+Then open http://localhost:5173 in your browser.
+
 ## Running the Application
 
 ### Start Backend Server
