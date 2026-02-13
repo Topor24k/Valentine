@@ -10,11 +10,10 @@ const TimelineScene = ({ onNavigate }) => {
     title: '',
     date: '',
     mainPhoto: '',
-    bundlePhotos: [],
     message: ''
   })
   const [mainPhotoPreview, setMainPhotoPreview] = useState(null)
-  const [bundlePhotoPreviews, setBundlePhotoPreviews] = useState([])
+  const [lineWidth, setLineWidth] = useState('100%')
   const containerRef = useRef(null)
   const timelineRef = useRef(null)
   const formRef = useRef(null)
@@ -46,6 +45,12 @@ const TimelineScene = ({ onNavigate }) => {
 
   useEffect(() => {
     if (timelineItems.length > 0 && timelineRef.current) {
+      // Calculate total width needed for all items
+      const itemWidth = 280 // width of each timeline item
+      const gap = 30 // gap between items
+      const totalWidth = (timelineItems.length * (itemWidth + gap)) + 100 // extra padding
+      setLineWidth(`${totalWidth}px`)
+      
       gsap.fromTo(timelineRef.current.children,
         { opacity: 0, y: 30 },
         { 
@@ -92,38 +97,7 @@ const TimelineScene = ({ onNavigate }) => {
     }
   }
 
-  const handleBundlePhotosChange = (e) => {
-    const files = Array.from(e.target.files)
-    const newPreviews = []
-    const newPhotos = []
-    let filesProcessed = 0
 
-    files.forEach(file => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        newPreviews.push(reader.result)
-        newPhotos.push(reader.result)
-        filesProcessed++
-        
-        if (filesProcessed === files.length) {
-          setBundlePhotoPreviews(prev => [...prev, ...newPreviews])
-          setFormData(prev => ({
-            ...prev,
-            bundlePhotos: [...prev.bundlePhotos, ...newPhotos]
-          }))
-        }
-      }
-      reader.readAsDataURL(file)
-    })
-  }
-
-  const removeBundlePhoto = (index) => {
-    setBundlePhotoPreviews(prev => prev.filter((_, i) => i !== index))
-    setFormData(prev => ({
-      ...prev,
-      bundlePhotos: prev.bundlePhotos.filter((_, i) => i !== index)
-    }))
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -141,11 +115,9 @@ const TimelineScene = ({ onNavigate }) => {
           title: '',
           date: '',
           mainPhoto: '',
-          bundlePhotos: [],
           message: ''
         })
         setMainPhotoPreview(null)
-        setBundlePhotoPreviews([])
         setShowForm(false)
         fetchTimelineItems()
       }
@@ -247,47 +219,14 @@ const TimelineScene = ({ onNavigate }) => {
                 )}
               </div>
 
-              <div className="form-group photo-upload">
-                <label>Bundle Photos (Optional)</label>
-                <div className="upload-area">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleBundlePhotosChange}
-                    id="bundle-photos-upload"
-                    multiple
-                  />
-                  <label htmlFor="bundle-photos-upload" className="upload-label">
-                    📷 Add More Photos
-                  </label>
-                </div>
-                {bundlePhotoPreviews.length > 0 && (
-                  <div className="bundle-photos-preview">
-                    {bundlePhotoPreviews.map((preview, index) => (
-                      <div key={index} className="bundle-photo-item">
-                        <img src={preview} alt={`Bundle ${index + 1}`} />
-                        <button
-                          type="button"
-                          className="remove-photo-btn"
-                          onClick={() => removeBundlePhoto(index)}
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               <div className="form-group">
-                <label>Short Message <span className="required">*</span></label>
+                <label>Short Message (Optional)</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   placeholder="Write a short message about this memory..."
                   rows="4"
-                  required
                 />
               </div>
 
@@ -310,7 +249,7 @@ const TimelineScene = ({ onNavigate }) => {
               </div>
             ) : (
               <>
-                <div className="timeline-line"></div>
+                <div className="timeline-line" style={{ width: lineWidth }}></div>
                 {timelineItems.map((item, index) => {
                   const isExpanded = expandedItem === item._id
                   const position = index % 2 === 0 ? 'top' : 'bottom'
@@ -335,14 +274,7 @@ const TimelineScene = ({ onNavigate }) => {
                                 day: 'numeric'
                               })}
                             </p>
-                            {item.bundlePhotos && item.bundlePhotos.length > 0 && (
-                              <div className="timeline-bundle-photos">
-                                {item.bundlePhotos.map((photo, idx) => (
-                                  <img key={idx} src={photo} alt={`Photo ${idx + 1}`} />
-                                ))}
-                              </div>
-                            )}
-                            <p className="timeline-description">{item.message}</p>
+                            {item.message && <p className="timeline-description">{item.message}</p>}
                             <div className="timeline-actions">
                               <button 
                                 className="delete-btn"

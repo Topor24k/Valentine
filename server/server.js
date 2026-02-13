@@ -13,10 +13,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // MongoDB Connection
 const MONGODB_URI = 'mongodb+srv://kayeencampana_db_user:Uq5vINcl6bFbxkvm@cluster0.eqp5jwy.mongodb.net/valentine?retryWrites=true&w=majority&appName=Cluster0';
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(MONGODB_URI)
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
@@ -34,13 +31,10 @@ const timelineSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  bundlePhotos: {
-    type: [String],
-    default: []
-  },
   message: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   createdAt: {
     type: Date,
@@ -81,8 +75,7 @@ app.post('/api/timeline', async (req, res) => {
     title: req.body.title,
     date: req.body.date,
     mainPhoto: req.body.mainPhoto,
-    bundlePhotos: req.body.bundlePhotos || [],
-    message: req.body.message
+    message: req.body.message || ''
   });
 
   try {
@@ -101,9 +94,8 @@ app.put('/api/timeline/:id', async (req, res) => {
       {
         title: req.body.title,
         date: req.body.date,
-        description: req.body.description,
-        loveNote: req.body.loveNote,
-        imageUrl: req.body.imageUrl
+        mainPhoto: req.body.mainPhoto,
+        message: req.body.message || ''
       },
       { new: true }
     );

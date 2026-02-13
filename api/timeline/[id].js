@@ -15,13 +15,10 @@ const timelineSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  bundlePhotos: {
-    type: [String],
-    default: []
-  },
   message: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   createdAt: {
     type: Date,
@@ -42,10 +39,7 @@ async function connectToDatabase() {
     throw new Error('Please define the MONGODB_URI environment variable');
   }
 
-  const connection = await mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  const connection = await mongoose.connect(MONGODB_URI);
 
   cachedDb = connection;
   return connection;
@@ -86,8 +80,7 @@ module.exports = async (req, res) => {
           title: req.body.title,
           date: req.body.date,
           mainPhoto: req.body.mainPhoto,
-          bundlePhotos: req.body.bundlePhotos,
-          message: req.body.message
+          message: req.body.message || ''
         },
         { new: true }
       );

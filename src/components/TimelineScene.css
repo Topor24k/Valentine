@@ -436,12 +436,13 @@
   position: absolute;
   top: 50%;
   left: 0;
-  right: 0;
   height: 4px;
   background: linear-gradient(to right, #8b1e1e 0%, #5a0f0f 100%);
   box-shadow: 0 0 10px rgba(139, 30, 30, 0.3);
   pointer-events: none;
   transform: translateY(-50%);
+  transition: width 0.5s ease;
+  min-width: 100%;
 }
 
 .timeline-item {
