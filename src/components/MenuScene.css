@@ -236,3 +236,226 @@
     font-size: 1.1rem;
   }
 }
+
+/* Confirmation Modal Styles */
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.confirmation-modal {
+  background: linear-gradient(135deg, #fffef9 0%, #f5f2ea 100%);
+  padding: 50px 60px;
+  border-radius: 20px;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    0 15px 40px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  position: relative;
+  border: 2px solid rgba(139, 30, 30, 0.2);
+  animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.confirmation-title {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2.5rem;
+  color: #8b1e1e;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.confirmation-buttons {
+  position: relative;
+  height: 200px;
+}
+
+.yes-button {
+  background: linear-gradient(135deg, #8b1e1e 0%, #5a0f0f 100%);
+  color: white;
+  border: none;
+  padding: 18px 50px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(139, 30, 30, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.yes-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 12px 30px rgba(139, 30, 30, 0.5);
+}
+
+.no-button {
+  background: linear-gradient(135deg, #666 0%, #444 100%);
+  color: white;
+  border: none;
+  padding: 18px 50px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* Thank You Modal Styles */
+.thankyou-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.4s ease;
+}
+
+.thankyou-modal {
+  background: linear-gradient(135deg, #fffef9 0%, #f5f2ea 100%);
+  padding: 50px 60px;
+  border-radius: 20px;
+  box-shadow: 
+    0 30px 90px rgba(0, 0, 0, 0.5),
+    0 15px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 500px;
+  border: 3px solid #8b1e1e;
+  animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.valentine-guy-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 3px solid #8b1e1e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.thankyou-title {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2.5rem;
+  color: #8b1e1e;
+  margin-bottom: 20px;
+  font-weight: 700;
+  animation: slideDown 0.6s ease-out;
+}
+
+.thankyou-message {
+  font-family: 'Lora', 'Georgia', serif;
+  font-size: 1.3rem;
+  color: #2a1515;
+  line-height: 1.6;
+  animation: slideUp 0.6s ease-out;
+}
+
+.chances-highlight {
+  color: #8b1e1e;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive for modals */
+@media (max-width: 768px) {
+  .confirmation-modal,
+  .thankyou-modal {
+    padding: 40px 30px;
+    margin: 20px;
+  }
+
+  .confirmation-title,
+  .thankyou-title {
+    font-size: 2rem;
+  }
+
+  .valentine-guy-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .yes-button,
+  .no-button {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+  }
+
+  .thankyou-message {
+    font-size: 1.1rem;
+  }
+
+  .chances-highlight {
+    font-size: 1.3rem;
+  }
+}
