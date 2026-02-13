@@ -61,7 +61,7 @@ const TimelineScene = ({ onNavigate }) => {
 
   const fetchTimelineItems = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/timeline')
+      const response = await fetch('/api/timeline')
       const data = await response.json()
       setTimelineItems(data)
     } catch (error) {
@@ -128,7 +128,7 @@ const TimelineScene = ({ onNavigate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:3001/api/timeline', {
+      const response = await fetch('/api/timeline', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ const TimelineScene = ({ onNavigate }) => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this memory?')) {
       try {
-        await fetch(`http://localhost:3001/api/timeline/${id}`, {
+        await fetch(`/api/timeline/${id}`, {
           method: 'DELETE'
         })
         fetchTimelineItems()
