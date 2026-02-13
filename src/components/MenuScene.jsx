@@ -11,7 +11,7 @@ const MenuScene = ({ onNavigate }) => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [showThankYou, setShowThankYou] = useState(false)
   const [showSpinWheel, setShowSpinWheel] = useState(false)
-  const [noButtonPosition, setNoButtonPosition] = useState({ top: '60%', left: '60%' })
+  const [noButtonPosition, setNoButtonPosition] = useState(null)
   const noButtonRef = useRef(null)
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const MenuScene = ({ onNavigate }) => {
         <div className="confirmation-overlay">
           <div className="confirmation-modal">
             <h2 className="confirmation-title">Are you Sure?</h2>
-            <div className="confirmation-buttons">
+            <div className="confirmation-buttons-container">
               <button 
                 className="yes-button"
                 onClick={handleYesClick}
@@ -143,14 +143,15 @@ const MenuScene = ({ onNavigate }) => {
               </button>
               <button 
                 ref={noButtonRef}
-                className="no-button"
+                className={noButtonPosition ? "no-button-moving" : "no-button"}
                 onMouseEnter={handleNoHover}
-                style={{
-                  position: 'absolute',
+                style={noButtonPosition ? {
+                  position: 'fixed',
                   top: noButtonPosition.top,
                   left: noButtonPosition.left,
-                  transition: 'all 0.3s ease'
-                }}
+                  transition: 'all 0.3s ease',
+                  zIndex: 9999
+                } : {}}
               >
                 No
               </button>

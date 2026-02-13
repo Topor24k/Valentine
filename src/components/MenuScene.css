@@ -255,7 +255,7 @@
 
 .confirmation-modal {
   background: linear-gradient(135deg, #fffef9 0%, #f5f2ea 100%);
-  padding: 50px 60px;
+  padding: 60px 80px;
   border-radius: 20px;
   box-shadow: 
     0 30px 80px rgba(0, 0, 0, 0.4),
@@ -264,41 +264,44 @@
   position: relative;
   border: 2px solid rgba(139, 30, 30, 0.2);
   animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  min-width: 700px;
+  min-height: 300px;
 }
 
 .confirmation-title {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #8b1e1e;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   font-weight: 700;
 }
 
-.confirmation-buttons {
+.confirmation-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
   position: relative;
-  height: 200px;
+  padding: 0 40px;
 }
 
 .yes-button {
   background: linear-gradient(135deg, #8b1e1e 0%, #5a0f0f 100%);
   color: white;
   border: none;
-  padding: 18px 50px;
-  font-size: 1.3rem;
+  padding: 20px 60px;
+  font-size: 1.5rem;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 8px 20px rgba(139, 30, 30, 0.3);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  flex: 1;
+  max-width: 250px;
 }
 
 .yes-button:hover {
-  transform: translate(-50%, -50%) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 12px 30px rgba(139, 30, 30, 0.5);
 }
 
@@ -306,14 +309,27 @@
   background: linear-gradient(135deg, #666 0%, #444 100%);
   color: white;
   border: none;
-  padding: 18px 50px;
-  font-size: 1.3rem;
+  padding: 20px 60px;
+  font-size: 1.5rem;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transform: translate(-50%, -50%);
-  z-index: 1;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 250px;
+}
+
+.no-button-moving {
+  background: linear-gradient(135deg, #666 0%, #444 100%);
+  color: white;
+  border: none;
+  padding: 20px 60px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Thank You Modal Styles */
@@ -429,15 +445,32 @@
 
 /* Responsive for modals */
 @media (max-width: 768px) {
-  .confirmation-modal,
+  .confirmation-modal {
+    padding: 40px 30px;
+    margin: 20px;
+    min-width: auto;
+    max-width: 90%;
+    min-height: auto;
+  }
+
   .thankyou-modal {
     padding: 40px 30px;
     margin: 20px;
   }
 
-  .confirmation-title,
+  .confirmation-title {
+    font-size: 1.8rem;
+    margin-bottom: 50px;
+  }
+
   .thankyou-title {
     font-size: 2rem;
+  }
+
+  .confirmation-buttons-container {
+    flex-direction: row;
+    gap: 20px;
+    padding: 0 10px;
   }
 
   .valentine-guy-image {
@@ -446,9 +479,10 @@
   }
 
   .yes-button,
-  .no-button {
-    padding: 15px 40px;
-    font-size: 1.1rem;
+  .no-button-moving {
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    min-width: 140px;
   }
 
   .thankyou-message {
