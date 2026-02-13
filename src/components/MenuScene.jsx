@@ -139,7 +139,7 @@ const MenuScene = ({ onNavigate }) => {
                 className="yes-button"
                 onClick={handleYesClick}
               >
-                Yes! 💖
+                Yes!
               </button>
               <button 
                 ref={noButtonRef}
@@ -169,7 +169,7 @@ const MenuScene = ({ onNavigate }) => {
               alt="Valentine Guy" 
               className="valentine-guy-image"
             />
-            <h2 className="thankyou-title">Thank You Langga! 💕</h2>
+            <h2 className="thankyou-title">Thank You Langga!</h2>
             <p className="thankyou-message">
               You have <span className="chances-highlight">2 spinning wheel chances</span> to win amazing prizes!
             </p>
