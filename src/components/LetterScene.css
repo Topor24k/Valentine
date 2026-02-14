@@ -2,11 +2,12 @@
   width: 100%;
   min-height: 100vh;
   max-height: 100vh;
+  min-height: -webkit-fill-available;
   background: linear-gradient(135deg, #8b1e1e 0%, #5a0f0f 100%);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 30px 20px 40px;
+  padding: clamp(20px, 3vh, 30px) clamp(15px, 2vw, 20px) clamp(30px, 4vh, 40px);
   position: relative;
   opacity: 0;
   overflow-y: auto;
@@ -22,15 +23,15 @@
 
 .letter-back-btn {
   position: fixed;
-  top: 30px;
-  left: 30px;
+  top: clamp(20px, 3vh, 30px);
+  left: clamp(20px, 3vw, 30px);
   background: rgba(255, 255, 255, 0.95);
   color: #8b1e1e;
   border: 2px solid #8b1e1e;
-  padding: 12px 24px;
+  padding: clamp(10px, 1.5vh, 12px) clamp(18px, 3vw, 24px);
   border-radius: 25px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
   font-weight: 600;
   transition: all 0.3s ease;
   z-index: 10;
@@ -78,8 +79,8 @@
 .letter-paper {
   background: linear-gradient(to bottom, #fffef9 0%, #f9f7f0 100%);
   border: 1px solid #d4c5b0;
-  border-radius: 8px;
-  padding: 60px;
+  border-radius: clamp(6px, 1vw, 8px);
+  padding: clamp(30px, 5vw, 60px);
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.25),
     0 10px 30px rgba(0, 0, 0, 0.15),
@@ -270,5 +271,27 @@
 
   .letter-content p {
     text-indent: 1em;
+  }
+}
+
+/* Large screens - prevent over-stretching */
+@media (min-width: 1920px) {
+  .letter-container {
+    max-width: 1100px;
+  }
+  
+  .letter-paper {
+    padding: 80px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 2560px) {
+  .letter-container {
+    max-width: 1400px;
+  }
+  
+  .letter-scene {
+    padding: 50px 40px 60px;
   }
 }
