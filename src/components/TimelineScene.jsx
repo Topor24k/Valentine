@@ -13,9 +13,7 @@ const TimelineScene = ({ onNavigate }) => {
     message: ''
   })
   const [mainPhotoPreview, setMainPhotoPreview] = useState(null)
-  const [lineWidth, setLineWidth] = useState('100%')
   const containerRef = useRef(null)
-  const timelineRef = useRef(null)
   const formRef = useRef(null)
   const titleRef = useRef(null)
 
@@ -44,23 +42,37 @@ const TimelineScene = ({ onNavigate }) => {
   }, [showForm])
 
   useEffect(() => {
-    if (timelineItems.length > 0 && timelineRef.current) {
-      // Calculate total width needed for all items
-      const itemWidth = 280 // width of each timeline item
-      const gap = 30 // gap between items
-      const totalWidth = (timelineItems.length * (itemWidth + gap)) + 100 // extra padding
-      setLineWidth(`${totalWidth}px`)
+    if (timelineItems.length > 0) {
+      // Animate all timeline items across all year sections
+      const allTimelineItems = document.querySelectorAll('.timeline-item')
+      if (allTimelineItems.length > 0) {
+        gsap.fromTo(allTimelineItems,
+          { opacity: 0, y: 30 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.6, 
+            stagger: 0.15,
+            ease: 'power2.out'
+          }
+        )
+      }
       
-      gsap.fromTo(timelineRef.current.children,
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.6, 
-          stagger: 0.2,
-          ease: 'power2.out'
-        }
-      )
+      // Animate year badges
+      const yearBadges = document.querySelectorAll('.year-badge')
+      if (yearBadges.length > 0) {
+        gsap.fromTo(yearBadges,
+          { opacity: 0, scale: 0.8, y: -20 },
+          { 
+            opacity: 1, 
+            scale: 1,
+            y: 0,
+            duration: 0.8, 
+            stagger: 0.2,
+            ease: 'back.out(1.4)'
+          }
+        )
+      }
     }
   }, [timelineItems])
 
@@ -68,10 +80,31 @@ const TimelineScene = ({ onNavigate }) => {
     try {
       const response = await fetch('/api/timeline')
       const data = await response.json()
-      setTimelineItems(data)
+      // Sort items by date (newest first, or oldest first - you can change this)
+      const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date))
+      setTimelineItems(sortedData)
     } catch (error) {
       console.error('Error fetching timeline:', error)
     }
+  }
+
+  // Group timeline items by year
+  const groupItemsByYear = (items) => {
+    const grouped = {}
+    items.forEach(item => {
+      const year = new Date(item.date).getFullYear()
+      if (!grouped[year]) {
+        grouped[year] = []
+      }
+      grouped[year].push(item)
+    })
+    // Sort years ascending (oldest first)
+    return Object.keys(grouped)
+      .sort((a, b) => a - b)
+      .map(year => ({
+        year,
+        items: grouped[year]
+      }))
   }
 
   const handleInputChange = (e) => {
@@ -238,72 +271,92 @@ const TimelineScene = ({ onNavigate }) => {
           </div>
         )}
 
-        <div className="timeline-content-wrapper">
-          <div className="timeline-line-container" ref={timelineRef}>
-            {timelineItems.length === 0 ? (
-              <div className="empty-timeline">
-                <div className="empty-frame">
-                  <p>No memories yet.</p>
-                  <p className="empty-sub">Click "Add Memory" to start your timeline!</p>
+        <div className="timeline-years-container">
+          {timelineItems.length === 0 ? (
+            <div className="timeline-content-wrapper">
+              <div className="timeline-line-container">
+                <div className="empty-timeline">
+                  <div className="empty-frame">
+                    <p>No memories yet.</p>
+                    <p className="empty-sub">Click "Add Memory" to start your timeline!</p>
+                  </div>
                 </div>
               </div>
-            ) : (
-              <>
-                <div className="timeline-line" style={{ width: lineWidth }}></div>
-                {timelineItems.map((item, index) => {
-                  const isExpanded = expandedItem === item._id
-                  const position = index % 2 === 0 ? 'top' : 'bottom'
-                  return (
-                    <div 
-                      key={item._id} 
-                      className={`timeline-item ${position} ${isExpanded ? 'expanded' : ''}`}
-                      onClick={() => !isExpanded && toggleExpand(item._id)}
-                    >
-                      <div className="timeline-content">
-                        <div className="timeline-image">
-                          <img src={item.mainPhoto} alt={item.title} />
-                        </div>
-                        <h3 className="timeline-title-text">{item.title}</h3>
-                        
-                        {isExpanded && (
-                          <div className="timeline-details">
-                            <p className="timeline-date">
+            </div>
+          ) : (
+            groupItemsByYear(timelineItems).map((yearGroup, yearIndex) => (
+              <div key={yearGroup.year} className="year-section">
+                <div className="year-indicator">
+                  <div className="year-badge">
+                    <span className="year-text">{yearGroup.year}</span>
+                  </div>
+                </div>
+                
+                <div className="timeline-content-wrapper">
+                  <div className="timeline-line-container">
+                    <div className="timeline-line" style={{ width: `${(yearGroup.items.length * 310) + 100}px` }}></div>
+                    {yearGroup.items.map((item, index) => {
+                      const isExpanded = expandedItem === item._id
+                      const position = index % 2 === 0 ? 'top' : 'bottom'
+                      return (
+                        <div 
+                          key={item._id} 
+                          className={`timeline-item ${position} ${isExpanded ? 'expanded' : ''}`}
+                          onClick={() => !isExpanded && toggleExpand(item._id)}
+                        >
+                          <div className="timeline-content">
+                            <div className="timeline-date-badge">
                               {new Date(item.date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
+                                month: 'short',
                                 day: 'numeric'
                               })}
-                            </p>
-                            {item.message && <p className="timeline-description">{item.message}</p>}
-                            <div className="timeline-actions">
-                              <button 
-                                className="delete-btn"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  handleDelete(item._id)
-                                }}
-                              >
-                                Remove Memory
-                              </button>
-                              <button 
-                                className="close-btn"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  toggleExpand(item._id)
-                                }}
-                              >
-                                Close
-                              </button>
                             </div>
+                            <div className="timeline-image">
+                              <img src={item.mainPhoto} alt={item.title} />
+                            </div>
+                            <h3 className="timeline-title-text">{item.title}</h3>
+                            
+                            {isExpanded && (
+                              <div className="timeline-details">
+                                <p className="timeline-date">
+                                  {new Date(item.date).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                  })}
+                                </p>
+                                {item.message && <p className="timeline-description">{item.message}</p>}
+                                <div className="timeline-actions">
+                                  <button 
+                                    className="delete-btn"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      handleDelete(item._id)
+                                    }}
+                                  >
+                                    Remove Memory
+                                  </button>
+                                  <button 
+                                    className="close-btn"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      toggleExpand(item._id)
+                                    }}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </>
-            )}
-          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
