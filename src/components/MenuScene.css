@@ -1,11 +1,12 @@
 .menu-scene {
   width: 100%;
   height: 100vh;
+  min-height: -webkit-fill-available;
   background: linear-gradient(135deg, #8b1e1e 0%, #5a0f0f 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: clamp(10px, 3vw, 20px);
   opacity: 0;
 }
 
@@ -14,8 +15,8 @@
   max-width: 800px;
   background: linear-gradient(to bottom, #fffef9 0%, #f5f2ea 100%);
   border: 1px solid #d4c5b0;
-  border-radius: 12px;
-  padding: 60px 40px;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 40px);
   position: relative;
   box-shadow: 
     0 30px 80px rgba(0, 0, 0, 0.4),
@@ -38,12 +39,12 @@
 
 .menu-title {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: clamp(30px, 5vw, 50px);
 }
 
 .title-main {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   color: #2a1515;
   font-weight: 700;
   margin-bottom: 10px;
@@ -75,20 +76,20 @@
 .menu-items {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 40px;
+  gap: clamp(15px, 2.5vw, 20px);
+  margin-bottom: clamp(30px, 4vw, 40px);
 }
 
 .menu-item {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(139, 30, 30, 0.15);
-  padding: 30px 35px;
-  border-radius: 8px;
+  padding: clamp(20px, 3.5vw, 30px) clamp(20px, 4vw, 35px);
+  border-radius: clamp(6px, 1vw, 8px);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: clamp(15px, 3vw, 25px);
   position: relative;
   overflow: hidden;
   box-shadow: 
@@ -127,17 +128,17 @@
 
 .menu-number {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   color: #8b1e1e;
   font-weight: 700;
-  min-width: 60px;
+  min-width: clamp(40px, 8vw, 60px);
   line-height: 1;
   opacity: 0.6;
 }
 
 .menu-text {
   font-family: 'Lora', 'Georgia', serif;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   color: #2a1515;
   font-weight: 600;
   flex: 1;
@@ -146,7 +147,7 @@
 }
 
 .menu-desc {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   color: #6b4545;
   font-weight: 400;
   letter-spacing: 0.3px;
@@ -491,5 +492,32 @@
 
   .chances-highlight {
     font-size: 1.3rem;
+  }
+}
+
+/* Large screens - prevent over-stretching */
+@media (min-width: 1920px) {
+  .menu-frame {
+    max-width: 1000px;
+  }
+  
+  .title-main {
+    font-size: 4rem;
+  }
+  
+  .menu-item {
+    padding: 35px 45px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 2560px) {
+  .menu-scene {
+    padding: 40px;
+  }
+  
+  .menu-frame {
+    max-width: 1200px;
+    padding: 80px 60px;
   }
 }
